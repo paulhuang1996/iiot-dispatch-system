@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+option go_package = "./pb";
+
+package machine;
+
+// 定義機台服務的接口
+service MachineService {
+    rpc GetMachineStatus (MachineRequest) returns (MachineResponse);
+    rpc UpdateMachineStatus (UpdateStatusRequest) returns (MachineResponse);
+}
+
+// 請求與回應的資料結構
+message MachineRequest {
+    string machine_id = 1;
+}
+
+message UpdateStatusRequest {
+    string machine_id = 2;
+    string status = 3; // 例如: IDLE, RUNNING, DOWN
+}
+
+message MachineResponse {
+    string machine_id = 1;
+    string status = 2;
+    string machine_type = 3;
+    int64 last_updated = 4;
+}
