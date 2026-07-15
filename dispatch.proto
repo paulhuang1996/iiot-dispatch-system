@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+option go_package = "./pb";
+
+package dispatch;
+
+// 派工決策服務的介面
+service DispatchService {
+    rpc DispatchLot (LotRequest) returns (DispatchResponse);
+}
+
+// 晶圓批次請求
+message LotRequest {
+    string lot_id = 1;        // 晶圓批次 ID (例如: LOT-20260715-01)
+    string process_type = 2;  // 需要的工序 (例如: LITHOGRAPHY, ETCHING)
+    int64 due_date = 3;       // 交期時間戳 (EDD 演算法會用到)
+}
+
+// 派工決策結果
+message DispatchResponse {
+    string lot_id = 1;
+    string assigned_machine_id = 2; // 被指派的機台 ID
+    string status = 3;              // 派工結果狀態 (SUCCESS / FAILED_NO_MACHINE)
+    int64 dispatched_at = 4;
+}
